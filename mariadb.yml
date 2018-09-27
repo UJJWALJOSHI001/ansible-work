@@ -1,0 +1,58 @@
+---
+ - hosts: all
+   remote_user: root
+   become: true
+   tasks: 
+    - name: installing mariadb
+      yum:
+        name: mariadb-server.x86_64 
+        state: present
+
+    - name: installing MySQL-python
+      yum:
+        name:  MySQL-python
+        state: present
+
+    - name: start service
+      service: 
+        name: mariadb
+        state: started
+        enabled: yes
+
+    - name: set password for root
+      mysql_user: user=root password=redhat check_implicit_admin=yes login_user=root login_password=redhat  state=present 
+
+    - name: remove anonymos user  
+      mysql_user:
+        name: ''
+        host_all: yes
+        state: absent 
+        login_user: root
+        login_password: redhat
+    - name: Removes the MySQL test database
+      mysql_db: db=test state=absent login_user=root login_password=redhat
+
+    - name: Secures the MySQL root user for IPV6 localhost (::1)
+      mysql_user: user=root login_user=root login_password=redhat host="{{ item }}"
+      with_items:
+        - ::1
+        - 127.0.0.1
+        - localhost
+        - "{{ ansible_fqdn }}"
+
+    - mysql_user:
+        login_user: root
+        login_password: redhat
+        name: jack
+        password: redhat
+        priv: '*.*:ALL,GRANT'
+        state: present
+      notify:
+        - user
+     
+   handlers:
+    - name: user
+      service:
+       name: mariadb
+       state: restarted
+       enabled: yes  
