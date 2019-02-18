@@ -1,0 +1,13 @@
+---
+ - hosts: localhost
+   tasks:
+    - name: checking
+      debug: msg="hello  {{ ansible_distribution }}"
+    - name: 
+      yum_repository:
+       name: example
+       description: adhoc networks repo
+       file: myfile
+       baseurl: http://adhoc.com
+       gpgcheck: no
+
