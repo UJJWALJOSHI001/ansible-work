@@ -1,0 +1,38 @@
+---
+ - hosts: localhost
+   tasks:
+    - name: checking2
+      debug: msg="hello  {{ ansible_facts['distribution'] }}"
+
+    - name:  creating  partition
+      parted: 
+       device: /dev/xvdf   
+       number: 1  
+       state: present 
+       part_end: 1GiB 
+       flags: [ lvm ]
+      
+    - name:  creating vg
+      lvg:
+       vg: adhocvv
+       pvs: /dev/xvdf1
+
+    - name:  creating lvm
+      lvol:
+       vg: adhocvv
+       lv: new1
+       size: 512
+
+    - name: creating  filesystem
+      filesystem:
+       dev: /dev/adhocvv/new1
+       fstype: ext2
+
+    - name: mount
+      mount: 
+       path: /mnt/go
+       fstype: ext2
+       src: /dev/adhocvv/new1
+       state: present
+       boot: yes
+

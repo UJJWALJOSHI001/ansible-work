@@ -1,0 +1,10 @@
+---
+ - hosts: localhost
+   tasks:
+    - name: checking2
+      debug: msg="hello  {{ ansible_facts['distribution'] }}"
+
+    - name:  creating  partition
+      parted: device=/dev/xvdf   number=1  state=present part_end=1GiB flags=[ lvm ]
+      
+
