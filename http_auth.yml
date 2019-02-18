@@ -1,0 +1,11 @@
+---
+ - hosts: nodes
+   remote_user: devops
+   become: true
+   tasks:
+    - file: path=/var/www/html/protected state=directory mode=755
+    - get_url: url=http://192.168.10.254/automation/htaccess dest=/var/www/html/protected/.htaccess
+    - get_url: url=http://192.168.10.254/automation/htpasswd dest=/var/www/html/protected/.htpasswd
+    - get_url: url=http://192.168.10.254/automation/secure.html dest=/var/www/html/protected/index.html
+    - replace: path=/etc/httpd/conf/httpd.conf regexp="AllowOverride None"  replace="AllowOverride AuthConfig"
+    - service: name=httpd state=restarted enabled=yes

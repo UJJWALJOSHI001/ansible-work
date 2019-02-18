@@ -1,0 +1,18 @@
+---
+ - hosts: nodes
+   remote_user: devops
+   become: true
+   ignore_errors: yes
+   tasks:
+    - yum: name=ekt23 state=present
+      register: out
+    - service: name=ekt23 state=restarted
+      register: ser_out
+    - debug: var=out
+    - debug: var=ser_out
+    - debug: msg="Installation Failed"
+      when: out.failed==true
+    - debug: msg="Service Failed"
+      when: ser_out.failed==true
+    - debug: msg="Playbook was unsuccessful"
+      when: ser_out.failed==true or out.failed==true

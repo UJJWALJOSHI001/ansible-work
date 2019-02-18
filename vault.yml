@@ -1,0 +1,8 @@
+---
+ - hosts: nodes
+   remote_user: devops
+   become: true
+   vars_files: crypt.yml
+   tasks:
+    - get_url: url=http://192.168.10.254/automation/vault.zip dest=/var/www/html/vault.zip
+    - shell: unzip -o -P "{{ password }}" /var/www/html/vault.zip       -d /var/www/html/vault/

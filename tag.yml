@@ -1,0 +1,13 @@
+---
+ - hosts: node1,node3
+   remote_user: devops
+   become: true
+   tasks:
+    - archive: path=/var/log dest=/var/www/html/group1.tar.gz  format=gz
+      tags: nogroup1
+ - hosts: node2,node4
+   remote_user: devops
+   become: true
+   tasks:
+    - archive: path=/var/www/html dest=/var/www/html/group2.tar.gz  format=gz
+      tags: nogroup2

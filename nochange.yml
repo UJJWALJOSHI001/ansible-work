@@ -1,0 +1,8 @@
+---
+ - hosts: nodes
+   remote_user: devops
+   become: true
+   tasks:
+    - name:
+      copy: content="no change required" dest=/var/www/html/unchange.html force=no
+    - service: name=httpd state=restarted

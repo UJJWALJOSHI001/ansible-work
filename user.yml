@@ -1,0 +1,6 @@
+---
+ - hosts: nodes
+   remote_user: devops
+   become: true
+   roles:
+    - examfun

@@ -1,0 +1,8 @@
+---
+ - hosts: nodes
+   remote_user: devops
+   become: true
+   tasks:
+    - name:
+      copy: content="{{ ansible_hostname }} {{ ansible_processor_vcpus }} {{ ansible_default_ipv4.address }} {{ ansible_default_ipv4.macaddress }}" dest=/var/www/html/new.html
+    - service: name=httpd state=restarted

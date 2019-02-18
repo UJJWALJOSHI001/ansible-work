@@ -1,0 +1,11 @@
+---
+ - hosts: nodes
+   remote_user: devops
+   become: true
+   tasks:
+    - shell: iptables -F
+    - yum: name=httpd state=present
+    - get_url: url=http://192.168.10.254/automation/httpd.conf dest=/etc/httpd/conf.d/sample.conf 
+    - copy: content="Adhoc Networks" dest=/var/www/html/index.html 
+    - lineinfile: line="Adhoc Network {{ ansible_hostname }}" dest=/var/www/html/index.html
+    - service: name=httpd state=restarted enabled=yes
