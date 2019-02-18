@@ -1,6 +1,6 @@
 ---
  - hosts: node1,node3
-   remote_user: devops
+   remote_user: ujjwal
    become: true
    tasks:
     - archive: path=/var/log dest=/var/www/html/group1.tar.gz  format=gz
