@@ -1,9 +1,9 @@
 ---
  - hosts: nodes
-   remote_user: devops
+   remote_user: ujjwal
    become: true
    tasks:
     - block:
-       - copy: src=/etc/examhost dest=/var/index.html
+       - copy: src=/etc/block dest=/var/index.html
       rescue:
        - copy: content="You have to copy it manually" dest=/var/index.html
