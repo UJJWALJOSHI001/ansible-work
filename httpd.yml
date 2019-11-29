@@ -1,6 +1,6 @@
 ---
  - hosts: nodes
-   remote_user: ujjwal
+   remote_user: root
    become: true
    tasks:
     - yum: name=httpd state=present
